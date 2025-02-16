@@ -3,6 +3,10 @@ const Joi = require("joi");
 
 // Mongoose Order Schema with Validation
 const orderSchema = mongoose.Schema({
+   orderId:{ 
+    type: String,
+    required: true
+   },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
@@ -19,6 +23,11 @@ const orderSchema = mongoose.Schema({
         type: Number,
         required: true,
         min: 0, // Non-negative value
+    },
+    address: {
+        type: String,
+        minlength:5,
+        mixlength:255
     },
     status: {
         type: String,

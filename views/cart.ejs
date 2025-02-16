@@ -191,10 +191,12 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script>
             document.querySelector('.paybtn').onclick = function (e) {
+                
                 axios.post('/payment/create/orderId')
                     .then(function (response) {
+
                         var options = {
-                            "key": "rzp_test_cAa3gCF0eP8i4R", // Enter the Key ID generated from the Dashboard
+                            "key": "rzp_test_WQVXFCfsMttRU1", // Enter the Key ID generated from the Dashboard
                             "amount": response.data.amount, // Amount in currency subunits. Default currency is INR.
                             "currency": response.data.currency,
                             "name": "ECOMMERCE",
@@ -208,16 +210,17 @@
                                     signature: response.razorpay_signature
                                 })
                                     .then(function (response) {
+                                        // console.log(JSON.parse(response.config.config))///this give you razorpayOrderId, paymentId, signature
                                         let { razorpayOrderId, razorpayPaymentId, signature } = JSON.parse(response.config.data)
-                                        window.location.href = `/order/<%#= userid %>/${razorpayOrderId}/${razorpayPaymentId}/${signature}`
+                                        window.location.href = `/order/<%= userid %>/${razorpayOrderId}/${razorpayPaymentId}/${signature}`
                                     })
                                     .catch(function (error) {
-                                        console.error(error);
+                                        console.error(error.message);
                                     });
                             },
                             "prefill": {
-                                "name": "Harsh Sharma",
-                                "email": "harsh.sharma@example.com",
+                                "name": "Devanshu tiwaskar",
+                                "email": "devanshutiwaskar@gmail.com",
                                 "contact": "9000090000"
                             },
                             "notes": {
@@ -239,7 +242,6 @@
                             alert('Payment ID: ' + response.error.metadata.payment_id);
                         });
                         rzp1.open();
-                        e.preventDefault();
                     })
                     .catch(function (error) {
                         console.error(error);

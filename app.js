@@ -16,7 +16,8 @@ const productRouter = require("./routers/product")
 const categoryRouter = require("./routers/category")
 const userRouter = require("./routers/user")
 const cartRouter = require("./routers/cart")
-
+const paymentRouter = require("./routers/payment")
+const orderRouter = require("./routers/order")
 
 require("dotenv").config();
 require("./config/google_auth_config")
@@ -66,6 +67,9 @@ app.use("/products", productRouter)
 app.use("/category", categoryRouter)
 app.use("/users", userRouter);
 app.use("/cart", cartRouter)
+app.use('/payment', paymentRouter)
+app.use('/order', orderRouter)
+
 
 
 app.listen(3000, ()=> {

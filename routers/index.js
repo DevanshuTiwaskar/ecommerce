@@ -9,10 +9,12 @@ require("../config/db");
 
 router.get("/", (req, res) => {
   res.redirect("/products");
-
-
 });
 
+
+router.get('/map/:orderid',(req,res)=>{
+  res.render('map',{ orderid: req.params.orderid })
+})
 
 
 

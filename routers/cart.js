@@ -27,7 +27,7 @@ try {
 
     let finalprice = cart.total + 34
 
-    res.render("cart", { cart: finalArray, finalprice: finalprice })
+    res.render("cart", { cart: finalArray, finalprice: finalprice, userid: req.session.passport.user  })
     
 } catch (error) {
     res.send(error.message)
