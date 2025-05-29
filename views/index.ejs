@@ -31,8 +31,16 @@
                     <% rnproducts.forEach(function(elem){ %>
                         <div class="flex w-32 flex-shrink-0 flex-col items-center">
                             <div class="relative">
-                                <img src="data:image/jpg;base64, <%= elem.image.toString('base64') %>"
-                                    alt="<%= elem.name %>" class="h-24 rounded">
+                                <% if (elem.image && elem.image.data && elem.image.contentType) { %>
+                                    <img class="w-32 h-32 mb-3" 
+                                         src="data:<%= elem.image.contentType %>;base64,<%= elem.image.data.toString('base64') %>" 
+                                         alt="Product Image">
+                                <% } else { %>
+                                    <!-- Fallback for products without an image -->
+                                    <img class="w-32 h-32 mb-3" 
+                                         src="Default" 
+                                         alt="Default Image">
+                                <% } %>
                             </div>
                             <p class="text-sm text-center mt-2">
                                 <%= elem.name %>
@@ -87,8 +95,16 @@
                     <div class="grid grid-cols-4 gap-4 mt-4">
                         <% products[key].forEach(elem=>{ %>
                             <div class="flex flex-col items-center">
-                                <img src="data:image/jpg;base64, <%= elem.image.toString('base64') %>"
-                                    alt="<%= elem.name %>" class="w-24 rounded">
+                                <% if (elem.image && elem.image.data && elem.image.contentType) { %>
+                                    <img class="w-full  mb-3" 
+                                         src="data:<%= elem.image.contentType %>;base64,<%= elem.image.data.toString('base64') %>" 
+                                         alt="Product Image">
+                                <% } else { %>
+                                    <!-- Fallback for products without an image -->
+                                    <img class="w-32 h-32 mb-3" 
+                                         src="Default" 
+                                         alt="Default Image">
+                                <% } %>
                                 <p class="text-sm text-center mt-2">
                                     <%= elem.name %>
                                 </p>

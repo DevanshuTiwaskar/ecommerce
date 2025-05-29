@@ -12,7 +12,7 @@ const addressSchema = mongoose.Schema({
 // User Schema for Mongoose
 const userSchema = mongoose.Schema(
   {
-    name: { type: String, required: true, minlength: 3, maxlength: 50 },
+    username: { type: String, required: true, minlength: 3, maxlength: 50 },
     email: {
       type: String,
       required: true,
@@ -20,8 +20,9 @@ const userSchema = mongoose.Schema(
       match: /\S+@\S+\.\S+/,
     },
     password: { type: String },
+    purchaseHistory: [],
     phone: { type: Number },
-    addressess: { type: [addressSchema], required: true }, // Array of address schemas
+    addresses: { type: [addressSchema], required: true }, // Array of address schemas
   },
   { timestamps: true } // Automatically adds createdAt and updatedAt fields
 );
@@ -39,11 +40,11 @@ const validateUser = (data) => {
   });
 
   const userSchema = Joi.object({
-    name: Joi.string().min(3).max(50).required(),
+    username: Joi.string().min(3).max(50).required(),
     email: Joi.string().email().required(),
     password: Joi.string().min(6).required(),
     phone: Joi.number().min(1000000000).max(9999999999).required(),
-    addressess: Joi.array().items(addressSchema).required(),
+    addresses: Joi.array().items(addressSchema).required(),
   });
 
   return userSchema.validate(data);

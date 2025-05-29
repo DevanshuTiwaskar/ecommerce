@@ -8,7 +8,7 @@ router.get('/',userIsLoggedIn, async function(req,res){
 //   res.send(req.session.passport.user)///this give user _id 
 try {
     let cart = await cartModel.findOne({ user:req.session.passport.user }).populate("products")
-    
+ 
     let cartDataStructure = {}
 
     cart.products.forEach((product) => {

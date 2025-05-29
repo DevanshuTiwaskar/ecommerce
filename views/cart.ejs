@@ -21,8 +21,16 @@
                 </div>
                 <% cart.forEach(elem=> { %>
                     <div class="flex items-center mt-4">
-                        <img src="data:image/jpg;base64, <%= elem.image.toString('base64') %>" alt="<%= elem.name %>"
-                            class="w-16 h-16 rounded">
+                        <% if (elem.image && elem.image.data && elem.image.contentType) { %>
+                            <img class="w-32 h-32 mb-3" 
+                                 src="data:<%= elem.image.contentType %>;base64,<%= elem.image.data.toString('base64') %>" 
+                                 alt="Product Image">
+                        <% } else { %>
+                            <!-- Fallback for products without an image -->
+                            <img class="w-32 h-32 mb-3" 
+                                 src="Default" 
+                                 alt="Default Image">
+                        <% } %>
                         <div class="ml-4">
                             <p>
                                 <%= elem.name %>

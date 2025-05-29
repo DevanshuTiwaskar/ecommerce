@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session")
 const passport = require('passport');
 const morgan = require("morgan");
-
+const cors = require("cors")
 
 const app = express();
 
@@ -29,7 +29,7 @@ app.set("view engine", "ejs");
 
 
 
-app.use(express.static(path.join(__dirname, "public")))
+// app.use(express.static(path.join(__dirname, "public")))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -49,6 +49,11 @@ app.use(passport.session());
 
 app.use(cookieParser())
 app.use(morgan("dev"));
+
+app.use(cors({
+  origin: true,
+  credentials:true
+}))
 
 
 /// development loggers

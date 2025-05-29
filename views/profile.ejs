@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= user.name %>'s Profile</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome, <%= user.name %>!</h1>
+        <p>Email: <%= user.email %></p>
+        <p>Phone: <%= user.phone ? user.phone : "Not Provided" %></p>
+    </header>
+
+    <section>
+        <h2>Address(es):</h2>
+        <ul>
+            <% if (user.addressess.length > 0) { %>
+                <% user.addressess.forEach(function(address) { %>
+                    <li>
+                        <p><%= address.street %>, <%= address.city %>, <%= address.state %>, <%= address.zip %></p>
+                    </li>
+                <% }) %>
+            <% } else { %>
+                <p>No addresses provided.</p>
+            <% } %>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Purchase History:</h2>
+        <% if (user.purchaseHistory.length > 0) { %>
+            <ul>
+                <% user.purchaseHistory.forEach(function(product) { %>
+                    <li>
+                        <h3><%= product.name %></h3>
+                        <p>Category: <%= product.category %></p>
+                        <p>Price: ₹<%= product.price %></p>
+                        <p>Description: <%= product.description %></p>
+                        <p>Stock: <%= product.stock %></p>
+                        <% if (product.image && product.image.data) { %>
+                            <img src="data:<%= product.image.contentType %>;base64,<%= product.image.data.toString('base64') %>" alt="<%= product.name %>" style="max-width: 200px;">
+                        <% } else { %>
+                            <p>No image available</p>
+                        <% } %>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No purchase history available.</p>
+        <% } %>
+    </section>
+</body>
+</html>

@@ -34,10 +34,19 @@
                             </h2>
                             <% products[key].forEach(function(elem){ %>
                                 <!-- products[key] is an array of products in that category -->
+                                 <%= JSON.stringify()  %>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
                                     <div class="bg-gray-50 p-4 rounded-lg shadow">
-                                        <img class="w-32 h-32 mb-3"
-                                            src="data:image/png;base64, <%= elem.image.toString('base64') %>" alt="">
+                                        <% if (elem.image && elem.image.data && elem.image.contentType) { %>
+                                            <img class="w-32 h-32 mb-3" 
+                                                 src="data:<%= elem.image.contentType %>;base64,<%= elem.image.data.toString('base64') %>" 
+                                                 alt="Product Image">
+                                        <% } else { %>
+                                            <!-- Fallback for products without an image -->
+                                            <img class="w-32 h-32 mb-3" 
+                                                 src="Default" 
+                                                 alt="Default Image">
+                                        <% } %>
                                         <h3 class="text-lg font-medium text-gray-900">
                                             <%= elem.name %>
                                         </h3>

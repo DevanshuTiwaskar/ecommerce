@@ -10,6 +10,8 @@ const { cartModel, validateCart } = require("../models/cart")
 
 
 const { validateAdmin, userIsLoggedIn } = require("../middlewares/admin");
+const { userModel } = require("../models/user");
+// const { products } = require("razorpay/dist/types/products");
 
 
 
@@ -76,50 +78,118 @@ router.post("/delete",validateAdmin, async (req,res)=>{
 
 
 //
-router.post("/", upload.single("image"), async (req, res) => {
-    let { name, price, category, stock, description,image } = req.body;
+// router.post("/", upload.single("image"), async (req, res) => {
+//     let { name, price, category, stock, description,image } = req.body;
   
+//     // Validate product details
+//     const validationResult = validateProduct({
+//       name,
+//       price,
+//       category,
+//       stock,
+//       description,
+//       image
+//     });
+//     // Check for validation errors
+//     if (validationResult.error) {
+//       return res.status(400).send(validationResult.error.message);
+//     }
+  
+//       // Check if category exists, if not create it category
+//      let iscategory = await categoryModel.findOne({name: category})
+//      if(!iscategory){
+//       await categoryModel.create({name: category})
+//      }
+
+
+
+
+//     // Proceed with product creation
+//     try {
+//       let product = await productModel.create({
+//         name,
+//         price,
+//         category,
+//         stock,
+//         description,
+//         image: req.file.buffer,
+//       });
+    
+//       res.status(201).redirect(`/admin/dashboard`);
+//     } catch (err) {
+//       res.status(500).send("Internal Server Error");
+//       console.error(err);
+//     }
+//   });
+  
+
+
+router.post("/", upload.single("image"), async (req, res) => {
+    // Get product details from request body
+    let { name, price, category, stock, description } = req.body;
+    let image = req.file; // Get image from multer
+
+    // Check if image is uploaded
+    if (!image) {
+        return res.status(400).send("Image is required");
+    }
+
     // Validate product details
     const validationResult = validateProduct({
-      name,
-      price,
-      category,
-      stock,
-      description,
-      image
-    });
-    // Check for validation errors
-    if (validationResult.error) {
-      return res.status(400).send(validationResult.error.message);
-    }
-  
-      // Check if category exists, if not create it category
-     let iscategory = await categoryModel.findOne({name: category})
-     if(!iscategory){
-      await categoryModel.create({name: category})
-     }
-
-
-
-
-    // Proceed with product creation
-    try {
-      let product = await productModel.create({
         name,
         price,
         category,
         stock,
         description,
-        image: req.file.buffer,
-      });
-    
-      res.status(201).redirect(`/admin/dashboard`);
-    } catch (err) {
-      res.status(500).send("Internal Server Error");
-      console.error(err);
+        image: image.originalname // Pass original name for validation
+    });
+
+    // Check for validation errors
+    if (validationResult.error) {
+        return res.status(400).send(validationResult.error.message);
     }
-  });
-  
+
+    // Check if category exists, if not create it
+    let iscategory = await categoryModel.findOne({ name: category });
+    if (!iscategory) {
+        await categoryModel.create({ name: category });
+    }
+
+    // Proceed with product creation
+    try {
+        let product = await productModel.create({
+            name,
+            price,
+            category,
+            stock,
+            description,
+            image: {
+                data: image.buffer,
+                contentType: image.mimetype
+            }
+        });
+
+        res.status(201).redirect(`/admin/dashboard`);
+    } catch (err) {
+        res.status(500).send("Internal Server Error");
+        console.error(err);
+    }
+});
+
+
+
+router.get("/get-product-by-id/:id", userIsLoggedIn,async (req,res) => {
+
+  console.log(req.user) 
+  try {
+
+
+    const product =await productModel.findById(req.params.id)
+    res.render('profile',{user:req.user, product})
+  } catch (error) {
+    res.status(404).send(error.message)
+  }
+})
 
 
 module.exports = router;

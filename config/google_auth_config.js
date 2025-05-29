@@ -65,7 +65,7 @@ passport.use(
 
         if (!user) { ///if user not found then create a new user
           user = new userModel({
-            name: profile.displayName,
+            username: profile.displayName,
             email: profile.emails[0].value,
           });
           await user.save();
