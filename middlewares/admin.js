@@ -1,6 +1,6 @@
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 
-require("dotenv").config();
 
 async function validateAdmin(req, res, next) {
   try {

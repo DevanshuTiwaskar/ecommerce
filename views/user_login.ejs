@@ -1,20 +1,83 @@
 <%- include('./partials/header'); %>
 
-    <body class="h-screen w-screen flex items-center justify-center bg-gray-100">
+<body class="h-screen w-screen bg-gray-100 font-sans">
 
-        <div class="relative h-full w-full">
-            <!-- Full-screen Image -->
-            <img src="/login_image.jpg" alt="Background Image" class="object-cover w-full h-full">
+  <div class="relative h-full w-full">
+    <!-- Background Image (can be your ecom banner) -->
+    <img src="/login_image.jpg" alt="Background Image" class="object-cover w-full h-full">
 
-            <!-- Button at the Bottom -->
-            <div class="absolute bottom-0 w-full flex justify-center mb-8">
-                <a href="/auth/google"
-                    class="bg-black text-white font-semibold py-3 px-6 rounded-lg hover:bg-black transition duration-300">
-                    Continue with Google
-                </a>
-            </div>
-        </div>
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-black/50"></div>
 
-    </body>
+    <!-- Desktop View -->
+    <div class="hidden md:flex absolute inset-0 items-center justify-center">
+      <div
+        class="backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-10 max-w-md w-full text-center animate-fadeIn">
+        
+        <!-- Store Logo -->
+        <img src="https://png.pngtree.com/png-vector/20220528/ourmid/pngtree-quick-shopping-vector-logo-png-image-png-image_4744376.png" alt="Store Logo" class="w-16 h-16 mx-auto mb-4">
+        
+        <!-- Title -->
+        <h1 class="text-4xl font-bold text-white drop-shadow-md mb-3">Welcome to ShopNow</h1>
+        <p class="text-gray-200 text-lg mb-8">Shop smarter. Sign in to continue.</p>
 
-    <%- include('./partials/footer'); %>
+        <!-- Google Login Button -->
+        <a href="/auth/google"
+          class="flex items-center justify-center gap-3 bg-white text-gray-800 font-medium py-3 px-6 rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 mb-4">
+          <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google Logo" class="w-6 h-6">
+          Continue with Google
+        </a>
+
+        <!-- Continue as Guest -->
+        <a href="/shop"
+          class="block text-gray-100 hover:underline mt-2 text-sm">
+          Continue as Guest →
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile View -->
+    <div class="md:hidden absolute inset-0 flex flex-col justify-end items-center p-6 text-center animate-fadeIn">
+      
+      <!-- Store Logo -->
+      <img src="/logo.png" alt="Store Logo" class="w-14 h-14 mb-4">
+
+      <h1 class="text-3xl font-bold text-white drop-shadow-md mb-2">Welcome to ShopNow</h1>
+      <p class="text-gray-200 mb-6">Sign in to continue</p>
+
+      <!-- Google Login Button -->
+      <a href="/auth/google"
+        class="flex items-center justify-center gap-3 bg-white text-gray-800 font-medium py-3 px-6 rounded-lg shadow-lg hover:bg-gray-100 transition duration-300 w-full mb-3">
+        <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google Logo" class="w-6 h-6">
+        Continue with Google
+      </a>
+
+      <!-- Guest option -->
+      <a href="/shop"
+        class="block text-gray-100 hover:underline text-sm mb-6">
+        Continue as Guest →
+      </a>
+    </div>
+  </div>
+
+  <!-- Animations -->
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.8s ease-out;
+    }
+  </style>
+
+</body>
+
+<%- include('./partials/footer'); %>

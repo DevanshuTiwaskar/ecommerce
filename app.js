@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
@@ -19,7 +20,6 @@ const cartRouter = require("./routers/cart")
 const paymentRouter = require("./routers/payment")
 const orderRouter = require("./routers/order")
 
-require("dotenv").config();
 require("./config/google_auth_config")
 require("./config/db");
 
@@ -49,6 +49,9 @@ app.use(passport.session());
 
 app.use(cookieParser())
 app.use(morgan("dev"));
+app.use(express.static(path.join(__dirname, "public")));
+
+
 
 app.use(cors({
   origin: true,

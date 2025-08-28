@@ -9,8 +9,7 @@ router.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    console.log();
-
+  
     if (!username || !email || !password) {
       res.send("username,email and password is require");
     }
@@ -59,12 +58,20 @@ router.get("/login", (req, res) => {
   res.render("user_login");
 });
 
+
+
+
 router.get("/profile", (req, res) => {
   if (!req.user) {
     return res.redirect("/auth/google");
   }
   res.send({ user: "users page" });
 });
+
+
+
+
+
 router.get("/logout", (req, res, next) => {
   req.logout(function (err) {
     if (err) {
